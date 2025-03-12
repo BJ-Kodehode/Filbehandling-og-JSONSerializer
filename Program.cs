@@ -16,7 +16,8 @@ class Program
             Console.WriteLine("2. Søk etter en person (via ID)");
             Console.WriteLine("3. Legg til en ny person");
             Console.WriteLine("4. Slett en person (via ID)");
-            Console.WriteLine("5. Avslutt");
+            Console.WriteLine("5. Vis JSON-data");
+            Console.WriteLine("6. Avslutt");
             Console.Write("Ditt valg: ");
 
             string choice = Console.ReadLine();
@@ -36,6 +37,9 @@ class Program
                     DeletePerson(fileController);
                     break;
                 case "5":
+                    fileController.DisplayJsonData();
+                    break;
+                case "6":
                     running = false;
                     Console.WriteLine("Avslutter programmet...");
                     break;

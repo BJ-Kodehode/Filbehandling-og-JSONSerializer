@@ -6,4 +6,7 @@ public interface IFileController
     string ReadFromFile(string filePath);
     void WriteJsonToFile<T>(string filePath, T data);
     T ReadJsonFromFile<T>(string filePath);
+    List<Person> GetPeople();
+    void SavePeople(List<Person> people);
+    void DisplayJsonData();
 }
