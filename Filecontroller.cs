@@ -29,15 +29,21 @@ public class FileController : IFileController
         Console.WriteLine($"JSON-data lagret til fil: {filePath}");
     }
 
-    public T ReadJsonFromFile<T>(string filePath)
+    public T ReadJsonFromFile<T>(string filePath) where T : new()
     {
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);
-            return JsonConvert.DeserializeObject<T>(json);
+            var deserialized = JsonConvert.DeserializeObject<T>(json);
+
+            // Hvis JSON-dataen er ugyldig eller null, returner en ny instans av T
+            return deserialized ?? Activator.CreateInstance<T>();
         }
-        return default;
+
+        // Hvis filen ikke finnes, returner en ny instans av T
+        return Activator.CreateInstance<T>();
     }
+
 
     public List<Person> GetPeople()
     {

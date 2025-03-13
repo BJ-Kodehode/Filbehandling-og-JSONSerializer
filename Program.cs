@@ -20,7 +20,7 @@ class Program
             Console.WriteLine("6. Avslutt");
             Console.Write("Ditt valg: ");
 
-            string choice = Console.ReadLine();
+            string? choice = Console.ReadLine(); // 
 
             switch (choice)
             {
@@ -52,7 +52,8 @@ class Program
 
     static void ShowAllPeople(FileController fileController)
     {
-        List<Person> people = fileController.GetPeople();
+        List<Person> people = fileController.GetPeople() ?? new List<Person>(); // 
+
         if (people.Count == 0)
         {
             Console.WriteLine("Ingen personer funnet.");
@@ -70,10 +71,12 @@ class Program
     static void SearchPerson(FileController fileController)
     {
         Console.Write("Skriv inn ID på personen du søker: ");
-        if (int.TryParse(Console.ReadLine(), out int id))
+        string? input = Console.ReadLine();
+
+        if (int.TryParse(input, out int id))
         {
-            List<Person> people = fileController.GetPeople();
-            Person foundPerson = people.FirstOrDefault(p => p.Id == id);
+            List<Person> people = fileController.GetPeople() ?? new List<Person>();
+            Person? foundPerson = people.FirstOrDefault(p => p.Id == id);
 
             if (foundPerson != null)
             {
@@ -92,13 +95,15 @@ class Program
 
     static void AddPerson(FileController fileController)
     {
-        List<Person> people = fileController.GetPeople();
+        List<Person> people = fileController.GetPeople() ?? new List<Person>();
 
         Console.Write("Skriv inn navn: ");
-        string name = Console.ReadLine();
+        string name = Console.ReadLine() ?? string.Empty; // ✅ Hindrer `null`
 
         Console.Write("Skriv inn alder: ");
-        if (int.TryParse(Console.ReadLine(), out int age))
+        string? input = Console.ReadLine();
+
+        if (int.TryParse(input, out int age))
         {
             int newId = people.Any() ? people.Max(p => p.Id) + 1 : 1;
             people.Add(new Person { Id = newId, Name = name, Age = age });
@@ -114,12 +119,14 @@ class Program
 
     static void DeletePerson(FileController fileController)
     {
-        List<Person> people = fileController.GetPeople();
+        List<Person> people = fileController.GetPeople() ?? new List<Person>();
 
         Console.Write("Skriv inn ID på personen du vil slette: ");
-        if (int.TryParse(Console.ReadLine(), out int id))
+        string? input = Console.ReadLine();
+
+        if (int.TryParse(input, out int id))
         {
-            Person personToRemove = people.FirstOrDefault(p => p.Id == id);
+            Person? personToRemove = people.FirstOrDefault(p => p.Id == id);
             if (personToRemove != null)
             {
                 people.Remove(personToRemove);
